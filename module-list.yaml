@@ -1,0 +1,24 @@
+parameters:
+- name: module-list
+  displayName: Modules to add
+  type: object
+  default:
+  - 'windows-virtual-machine'
+  - 'linux-virtual-machine'
+  - 'storage-account'
+  - 'mssql'
+  - 'app-service-environment'
+  - 'app-service-plan'
+  - 'app-service-windows'
+  - 'app-service-linux'
+  - 'vmss-windows'
+  - 'vmss-linux'
+  - 'linux_cluster'
+  - 'windows_cluster'
+  - 'container-group'
+  - 'container-registry'
+  - 'load_balancer'
+  - 'front-door'
+  - 'data-lake'
+  - 'search_service'
+  - 'application-insights'
