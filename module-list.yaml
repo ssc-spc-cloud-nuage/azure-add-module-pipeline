@@ -23,5 +23,5 @@ parameters:
       - 'search_service'
       - 'application-insights'
   - name: Environments
-      displayName: Environment
-      type: string
+    displayName: Environment
+    type: string
