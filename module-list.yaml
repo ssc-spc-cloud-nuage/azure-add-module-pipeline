@@ -25,4 +25,4 @@ parameters:
 - name: Environments
     displayName: Environment
     type: string
-    default: 'sandbox'
+    value: 'sandbox'
