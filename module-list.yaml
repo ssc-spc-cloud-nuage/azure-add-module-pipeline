@@ -25,3 +25,31 @@ parameters:
   - name: Environments
     displayName: Environment
     type: string
+
+jobs:
+- job: 'Add Modules'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - template: module-list.yaml@templates
+  - checkout: self
+    persistCredentials: true
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        set -e
+        # cd landing_zones_*/${{parameters.Environments }}/L2_blueprint_project
+        cd $ENV
+        MODULES_STR="${{ join(' ', parameters.modules) }}"
+        echo $MODULES_STR
+        ./module_init.sh $MODULES_STR
+
+        git add .
+        git commit -m "test push"
+        git push origin HEAD:$(Build.SourceBranchName)
+    env:
+      ENV: ${{ parameters.Environments }}
+      # MODULES: ${{ parameters.modules }}
