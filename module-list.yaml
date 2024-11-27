@@ -1,55 +1,53 @@
+trigger: none 
+
 parameters:
-  - name: modules
-    displayName: Modules to add
-    type: object
-    default:
-      - 'windows-virtual-machine'
-      - 'linux-virtual-machine'
-      - 'storage-account'
-      - 'mssql'
-      - 'app-service-environment'
-      - 'app-service-plan'
-      - 'app-service-windows'
-      - 'app-service-linux'
-      - 'vmss-windows'
-      - 'vmss-linux'
-      - 'linux_cluster'
-      - 'windows_cluster'
-      - 'container-group'
-      - 'container-registry'
-      - 'load_balancer'
-      - 'front-door'
-      - 'data-lake'
-      - 'search_service'
-      - 'application-insights'
-  - name: folder
-    displayName: folder
-    type: string
+- name: modules
+  displayName: Modules to add
+  type: object
+  default:
+  - 'windows-virtual-machine'
+  - 'linux-virtual-machine'
+  - 'storage-account'
+  - 'mssql'
+  - 'app-service-environment'
+  - 'app-service-plan'
+  - 'app-service-windows'
+  - 'app-service-linux'
+  - 'vmss-windows'
+  - 'vmss-linux'
+  - 'linux-cluster'
+  - 'windows-cluster'
+  - 'container-group'
+  - 'container-registry'
+  - 'load-balancer'
+  - 'front-door'
+  - 'data-lake'
+  - 'search-service'
+  - 'application-insights'
 
-jobs:
-- job: 'Add Modules'
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - template: module-list.yaml@templates
-  - checkout: self
-    persistCredentials: true
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        set -e
-        # cd landing_zones_*/${{parameters.folder }}/L2_blueprint_project
-        cd $ENV
-        MODULES_STR="${{ join(' ', parameters.modules) }}"
-        echo $MODULES_STR
-        ./module_init.sh $MODULES_STR
+- name: Environments
+  displayName: Environment
+  type: string
+  # values: 
+  # - 'prod'
+  # - 'dev'
+  # - 'sandbox'
 
-        git add .
-        git commit -m "test push"
-        git push origin HEAD:$(Build.SourceBranchName)
-    env:
-      ENV: ${{ parameters.Environments }}
-      # MODULES: ${{ parameters.modules }}
+steps:
+- checkout: self
+  persistCredentials: true
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      git config --global user.email "you@example.com"
+      git config --global user.name "Your Name"
+      set -e
+      cd $ENV
+      ./module_init.sh $MODULES
+
+      git add .
+      git commit -m "test push"
+      git push origin HEAD:$(Build.SourceBranchName)
+  env:
+    ENV: ${{ parameters.Environments }}
