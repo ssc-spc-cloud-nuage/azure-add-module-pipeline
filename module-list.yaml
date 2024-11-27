@@ -1,5 +1,5 @@
 parameters:
-  - name: module-list
+  - name: modules
     displayName: Modules to add
     type: object
     default:
