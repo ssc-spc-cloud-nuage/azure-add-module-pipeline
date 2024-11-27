@@ -22,3 +22,8 @@ parameters:
   - 'data-lake'
   - 'search_service'
   - 'application-insights'
+  
+- name: Environments
+    displayName: Environment
+    type: string
+    default: 'sandbox'
